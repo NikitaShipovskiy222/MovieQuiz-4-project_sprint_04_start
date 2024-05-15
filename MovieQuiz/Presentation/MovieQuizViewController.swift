@@ -16,6 +16,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private var presenter: MovieQuizPresenter!
+    var isAnsweringQuestion = false
     // MARK: - Properties
     
     
@@ -87,11 +88,33 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     
     @IBAction func yesButtonClicked(_ sender: Any) {
         presenter.yesButtonClicked()
+        
+        if !isAnsweringQuestion {
+            isAnsweringQuestion = true
+            yesButton.isEnabled = false
+            noButton.isEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.isAnsweringQuestion = false
+                self.yesButton.isEnabled = true
+                self.noButton.isEnabled = true
+            }
+        }
     }
     
     
     @IBAction func noButtonClicked(_ sender: Any) {
         presenter.noButtonClicked()
+        
+        if !isAnsweringQuestion {
+            isAnsweringQuestion = true
+            yesButton.isEnabled = false
+            noButton.isEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.isAnsweringQuestion = false
+                self.yesButton.isEnabled = true
+                self.noButton.isEnabled = true
+            }
+        }
     }
 }
 
