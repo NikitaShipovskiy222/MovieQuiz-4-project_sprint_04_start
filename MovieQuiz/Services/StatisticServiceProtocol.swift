@@ -1,18 +1,19 @@
 //
-//  StatisticServiceProtocol.swift
+//  StatisticService.swift
 //  MovieQuiz
 //
-//  Created by  Admin on 26.01.2024.
+//  Created by Yo on 29/1/24.
 //
 
 import Foundation
 
 protocol StatisticService {
-    var totalAccuracy: Double { get }
-    var gamesCount: Int { get }
-    var bestGame: GameRecord { get }
-    var totalAnswerAll: Int { get set }
-    var corectAnswerAll: Int { get set }
+    var totalAccuracy: Double { get set }  
+    var gameCount: Int  { get set }
+    var bestGame: GameRecord { get set }
+    var totalCorrectAnswer: Int { get set }
+    var totalAmount: Int { get set }
+    
 
-    func store(correct count: Int, total amount: Int)
+    func store(correct count: Int, total amount: Int)  //  метод для сохранения текущего результата игры
 }
