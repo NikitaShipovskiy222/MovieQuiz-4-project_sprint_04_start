@@ -54,7 +54,7 @@
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма меньше чем 5?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNl-ZS-eKy" userLabel="Question Label">
                                         <rect key="frame" x="0.0" y="622.5" width="374" height="102.5"/>
-                                        <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="19"/>
+                                        <fontDescription key="fontDescription" name="YSDisplay-Bold" family="YS Display" pointSize="23"/>
                                         <color key="textColor" name="YP White"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -66,7 +66,7 @@
                                                 <color key="backgroundColor" name="YP White"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="нет">
+                                                <state key="normal" title="Нет">
                                                     <color key="titleColor" name="YP Black"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -75,7 +75,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="noBottun:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tyE-mU-XU6"/>
+                                                    <action selector="noButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="F8o-Mt-pPg"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nnF-Z3-IJK" userLabel="Yes Button">
@@ -86,7 +86,7 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="да">
+                                                <state key="normal" title="Да">
                                                     <color key="titleColor" name="YP Black"/>
                                                 </state>
                                                 <userDefinedRuntimeAttributes>
@@ -95,7 +95,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="yesBottunClecked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9SW-vS-TgE"/>
+                                                    <action selector="noButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cfN-X5-9S0"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -106,6 +106,10 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="cT9-m4-T45">
+                                <rect key="frame" x="20" y="438" width="374" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
@@ -117,12 +121,14 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="cT9-m4-T45" id="Dz6-vh-zLE"/>
                         <outlet property="counterLabel" destination="OQn-xv-imr" id="W3O-Nn-zqU"/>
-                        <outlet property="imageView" destination="O5l-qf-KhX" id="UM2-Tr-ZcJ"/>
-                        <outlet property="noBottun" destination="NZk-EI-KeD" id="WQJ-3a-lZG"/>
+                        <outlet property="imageView" destination="O5l-qf-KhX" id="X1l-wE-Qt0"/>
+                        <outlet property="noButton" destination="NZk-EI-KeD" id="VZJ-K4-4jh"/>
                         <outlet property="questionLabel" destination="aNl-ZS-eKy" id="eoP-Gw-MbA"/>
-                        <outlet property="questionTitleLabel" destination="7GU-zM-4bw" id="5OA-l2-Uh5"/>
-                        <outlet property="yesBottun" destination="nnF-Z3-IJK" id="1Fx-4L-w4R"/>
+                        <outlet property="questionTitleLabel" destination="aNl-ZS-eKy" id="kYy-jo-0Dv"/>
+                        <outlet property="textLabel" destination="aNl-ZS-eKy" id="4VT-G9-Hhk"/>
+                        <outlet property="yesButton" destination="nnF-Z3-IJK" id="ujL-JW-EDd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -132,10 +138,10 @@
     </scenes>
     <resources>
         <namedColor name="YP Black">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="YP White">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
