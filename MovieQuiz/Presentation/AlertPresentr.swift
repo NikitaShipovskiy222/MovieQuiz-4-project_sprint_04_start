@@ -1,31 +1,23 @@
-//
-//  AlertPresenter.swift
-//  MovieQuiz
-//
-//  Created by Yo on 24/1/24.
-//
-
 import UIKit
 
-final class AlertPresenter {
-   // сообщаем алерт презентору что у него теперь есть делегат
-    weak var delegate: AlertPresenterDelegate?
-    init(delegate: AlertPresenterDelegate?) {
-        self.delegate = delegate
-    }
+class AlertPresenter {
     
-    // эта функция должна заставить вьюконтроллер показзать алерту, для этого создаем протокол делегата Алерт презентора
-    func showAlert(alertModel: AlertModel) {
+    let alertPresenterDelegate: MovieQuizViewController
+    
+    func show(alertModel: AlertModel) {
         let alert = UIAlertController(
             title: alertModel.title,
-            message: alertModel.text,
+            message: alertModel.message,
             preferredStyle: .alert)
-        let action = UIAlertAction(
-            title: alertModel.buttonText,
-            style: .default) { _ in
-            alertModel.buttonAction()
-        }
+        
+        let action = UIAlertAction(title: alertModel.buttonText, style: .default, handler: { _ in alertModel.completion() })
+        
         alert.addAction(action)
-        delegate?.showAlert(alert: alert)
+        alert.view.accessibilityIdentifier = "Этот раунд окончен!"
+        alertPresenterDelegate.present(alert, animated: true)
+    }
+    
+    init(alertPresenterDelegate: MovieQuizViewController) {
+        self.alertPresenterDelegate = alertPresenterDelegate
     }
 }

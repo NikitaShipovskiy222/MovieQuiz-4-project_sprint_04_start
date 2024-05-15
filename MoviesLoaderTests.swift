@@ -1,51 +1,61 @@
 import Foundation
+import XCTest
+@testable import MovieQuiz
 
-enum NetworkError: Error {
-    case codeError
-    case apiKeyError
-    case imageError
-}
-
-protocol NetworkRouting {
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
-}
-
-struct NetworkClient: NetworkRouting {
-    
-    private enum NetworkError: Error {
-        case codeError
+class MoviesLoaderTests: XCTestCase {
+    func testSuccessLoading() throws {
+        // Given
+        let stubNetworkClient = StubNetworkClient(emulateError: false)
+        let loader = MoviesLoader(networkClient: stubNetworkClient)
         
-    }
-    
-    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
-        let request = URLRequest(url: url)
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                handler(.failure(error))
-                return
-            }
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 || response.statusCode >= 300 {
-                handler(.failure(NetworkError.codeError))
-                return
-            }
+        // When
+        let expectation = expectation(description: "Loading expectation")
+        loader.loadMovies { result in
             
-            guard let data = data else { return }
-            handler(.success(data))
+            // Then
+            switch result {
+            case .success(let movies):
+                XCTAssertEqual(movies.items.count, 2)
+                expectation.fulfill()
+            case .failure(_):
+                XCTFail("Unexpected failure")
+            }
         }
         
-        task.resume()
+        waitForExpectations(timeout: 1)
+    }
+    
+    func testFailureLoading() throws {
+        // Given
+        let stubNetworkClient = StubNetworkClient(emulateError: true)
+        let loader = MoviesLoader(networkClient: stubNetworkClient)
+        
+        // When
+        let expectation = expectation(description: "Loading expectation")
+        loader.loadMovies { result in
+        
+        // Then
+            switch result {
+            case .success(_):
+                XCTFail("Unexpected failure")
+            case .failure(let error):
+                XCTAssertNotNil(error)
+                expectation.fulfill()
+            }
+        }
+            
+        waitForExpectations(timeout: 1)
+
     }
 }
 
 struct StubNetworkClient: NetworkRouting {
     
-    enum TestError: Error { // тестовая ошибка
-    case test
+    enum TestError: Error {
+        case test
     }
     
-    let emulateError: Bool // этот параметр нужен, чтобы заглушка эмулировала либо ошибку сети, либо успешный ответ
+    let emulateError: Bool
     
     func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void) {
         if emulateError {
